@@ -1,5 +1,5 @@
-import java.net.*;
 import java.io.*;
+import java.net.*;
 
 public class Server
 {
@@ -9,17 +9,10 @@ public class Server
     ServerSocket serverSocket = new ServerSocket(port);
     System.out.println("Server in ascolto sulla porta " + port);
 
-    try
+    try (Socket clientSocket = serverSocket.accept())
     {
-      while (true)
-      {
-        // Stoppa l'esecuzione finché un client non si connette
-        Socket clientSocket = serverSocket.accept();
-
-        PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
-        out.println("Ciao client!");
-        clientSocket.close();
-      }
+      PrintWriter out = new PrintWriter(clientSocket.getOutputStream(), true);
+      out.println("Ciao client!");
     }
     finally
     {
